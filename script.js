@@ -109,4 +109,32 @@ function addBookToLibrary(title, author, pageCount, status) {
     editStatusBtn.addEventListener("click", () => {
         editBook(bookCard.id);
     });
+
+    deleteBookBtn.addEventListener("click", () => {
+        deleteBook(bookCard.id);
+    });
+}
+
+function editBook(bookID) {
+    const bookCard = document.getElementById(bookID);
+
+    bookTitle = bookCard.getElementsByTagName('p')[0].textContent;
+    bookAuthor = bookCard.getElementsByTagName('p')[1].textContent;
+    bookPageCount = bookCard.getElementsByTagName('p')[2].textContent;
+    bookStatus = bookCard.getElementsByTagName('p')[3].textContent;
+
+    deleteBook(bookCard.id);
+
+    bookTitleInput.value = bookTitle;
+    bookAuthorInput.value = bookAuthor;
+    bookPageCountInput.value = bookPageCount;
+    bookStatusInput.value = bookStatus;
+    addNewBookDialog.showModal();
+    
+    bookCard.id = `${bookTitle}-${bookAuthor}`;
+}
+
+function deleteBook(bookID) {
+    const bookCard = document.getElementById(bookID);
+    bookCard.remove();
 }
