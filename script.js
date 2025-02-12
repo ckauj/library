@@ -116,7 +116,7 @@ function addBookToLibrary(title, author, pageCount, status) {
 }
 
 function editBook(bookID) {
-    const bookCard = document.getElementById(bookID);
+    let bookCard = document.getElementById(bookID);
 
     bookTitle = bookCard.getElementsByTagName('p')[0].textContent;
     bookAuthor = bookCard.getElementsByTagName('p')[1].textContent;
@@ -132,9 +132,22 @@ function editBook(bookID) {
     addNewBookDialog.showModal();
     
     bookCard.id = `${bookTitle}-${bookAuthor}`;
+
+    bookCard = document.getElementById(bookID);
+
+    bookTitle = bookCard.getElementsByTagName('p')[0].textContent;
+    bookAuthor = bookCard.getElementsByTagName('p')[1].textContent;
+    bookPageCount = bookCard.getElementsByTagName('p')[2].textContent;
+    bookStatus = bookCard.getElementsByTagName('p')[3].textContent;
+
+    let newBook = new Book(bookTitle, bookAuthor, bookPageCount, bookStatus);
+
+    myBookshelf.push(newBook);
 }
 
 function deleteBook(bookID) {
     const bookCard = document.getElementById(bookID);
     bookCard.remove();
+    let bookIndex = myBookshelf.findIndex(book => book.bookID === bookID);
+    myBookshelf.splice(bookIndex, 1);
 }
