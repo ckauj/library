@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Bookshelf</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../css/reset.css">
+</head>
+<body>
+    <div class="bookshelf-container">
+        <div class="sidebar-container my-bookshelf">
+            <div class="logo-container">
+                ReaderDex
+            </div>
+            <div class="nav">
+                <h3>Menu</h3>
+                <ul class="nav-list">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Profile</a></li>
+                    <li><a href="#">Settings</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="header-container my-bookshelf">
+            <div class="greeting">
+                <p>My Bookshelf</p>
+             </div>
+             <div class="profile-header">
+                 <p>Cy Kauffman</p>
+                 <img src="images/bookshelf.svg" alt="bookshelf">
+             </div>
+        </div>
+        <div class="content-container my-bookshelf">
+            <div class="read-container">
+                <h3>Finished</h3>
+                <div id="read-card-container">
+
+                </div>
+            </div>
+            <div class="reading-container">
+                <h3>Reading</h3>
+                <div id="reading-card-container">
+
+                </div>
+            </div>
+            <div class="plan-to-read-container">
+                <h3>Plan to read</h3>
+                <div id="plan-to-read-card-container">
+
+                </div>
+            </div>
+            <dialog id="add-book-dialog">
+                <form action="" method="dialog">
+                    <div class="book-title">
+                        <label for="book-title">Title:</label>
+                        <input type="text" name="book-title" id="book-title">
+                    </div>
+                    <div class="book-author">
+                        <label for="book-author">Author:</label>
+                        <input type="text" name="book-author" id="book-author">
+                    </div>
+                    <div class="book-status">
+                        <label for="book-status">
+                            Current status:
+                            <select name="book-status" id="book-status">
+                                <option value="reading">Reading</option>
+                                <option value="read">Read</option>
+                                <option value="plan-to-read">Plan to read</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class="form-options">
+                        <button id="add-book-confirm" value="default">Add</button>
+                        <button value="cancel" formmethod="dialog">Cancel</button>
+                    </div>
+                </form>
+            </dialog>
+            <button class="add-book" id="add-book-btn"><img src="images/plus-circle-outline.svg" alt="plus-circle-outline"></button>
+        </div>
+        <div class="footer-container my-bookshelf">
+            <p>ReaderDex</p>
+            <ul>
+                <li><a href="#">Privacy</a></li>
+                <li><a href="#">Contact Us</a></li>
+            </ul>
+        </div>
+    </div>
+    <script src="../script.js"></script>
+</body>
+</html>
