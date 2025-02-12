@@ -67,12 +67,27 @@ function addBookToLibrary(title, author, pageCount, status) {
     let bookPageCount = document.createElement('p');
     bookPageCount.textContent = `${pageCount}`;
 
+    let bookButtonContainer = document.createElement('div');
+    bookButtonContainer.classList.add('book-options');
+    let editStatusBtn = document.createElement('button');
+    let editStatusImg = document.createElement('img');
+    editStatusImg.src = 'images/pencil-box-outline.svg';
+    editStatusBtn.appendChild(editStatusImg);
+    bookButtonContainer.appendChild(editStatusBtn);
+    let deleteBookBtn = document.createElement('button');
+    let deleteBookImg = document.createElement('img');
+    deleteBookImg.src = 'images/trash-can.svg';
+    deleteBookBtn.appendChild(deleteBookImg);
+    bookButtonContainer.appendChild(deleteBookBtn);
+    
+
     bookInfo.appendChild(bookTitle);
     bookInfo.appendChild(bookAuthor);
     bookInfo.appendChild(bookPageCount);
 
     bookCard.appendChild(coverArt);
     bookCard.appendChild(bookInfo);
+    bookCard.appendChild(bookButtonContainer);
 
     shelfSection.appendChild(bookCard);
 }
