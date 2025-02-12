@@ -40,12 +40,15 @@ function Book(title, author, pageCount, status) {
     this.author = author;
     this.pageCount = pageCount;
     this.status = status;
+    this.bookID = `${title}-${author}`;
 }
 
 // Creates new instance of Book and adds it to array
 // Creates new card w/ title, author, page # and status
 // Adds new card to container
 function addBookToLibrary(title, author, pageCount, status) {
+    if(myBookshelf.find(book => book.bookID === `${title}-${author}`)) return;
+
     let newBook = new Book(title, author, pageCount, status);
 
     myBookshelf.push(newBook);
@@ -54,6 +57,7 @@ function addBookToLibrary(title, author, pageCount, status) {
 
     let bookCard = document.createElement('div');
     bookCard.classList.add(`${status}-card`);
+    bookCard.id = `${title}-${author}`;
 
     let coverArt = document.createElement('img');
     coverArt.classList.add('cover-art');
@@ -62,10 +66,17 @@ function addBookToLibrary(title, author, pageCount, status) {
     bookInfo.classList.add('book-info');
     let bookTitle = document.createElement('p');
     bookTitle.textContent = `${title}`;
+    bookTitle.classList.add('book-title');
     let bookAuthor = document.createElement('p');
     bookAuthor.textContent = `${author}`;
+    bookAuthor.classList.add('book-author');
     let bookPageCount = document.createElement('p');
     bookPageCount.textContent = `${pageCount}`;
+    bookPageCount.classList.add('book-page-count');
+    let bookStatus = document.createElement('p');
+    bookStatus.textContent = `${status}`;
+    bookStatus.classList.add('book-status');
+    bookStatus.style.display = 'none';
 
     let bookButtonContainer = document.createElement('div');
     bookButtonContainer.classList.add('book-options');
@@ -73,21 +84,29 @@ function addBookToLibrary(title, author, pageCount, status) {
     let editStatusImg = document.createElement('img');
     editStatusImg.src = 'images/pencil-box-outline.svg';
     editStatusBtn.appendChild(editStatusImg);
+
+    bookButtonContainer.appendChild(editStatusBtn);
+    
     bookButtonContainer.appendChild(editStatusBtn);
     let deleteBookBtn = document.createElement('button');
     let deleteBookImg = document.createElement('img');
     deleteBookImg.src = 'images/trash-can.svg';
     deleteBookBtn.appendChild(deleteBookImg);
+
     bookButtonContainer.appendChild(deleteBookBtn);
     
-
     bookInfo.appendChild(bookTitle);
     bookInfo.appendChild(bookAuthor);
     bookInfo.appendChild(bookPageCount);
+    bookInfo.appendChild(bookStatus);
 
     bookCard.appendChild(coverArt);
     bookCard.appendChild(bookInfo);
     bookCard.appendChild(bookButtonContainer);
 
     shelfSection.appendChild(bookCard);
+
+    editStatusBtn.addEventListener("click", () => {
+        editBook(bookCard.id);
+    });
 }
