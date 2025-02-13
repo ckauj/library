@@ -111,6 +111,7 @@ html {
     gap: 15px;
     background-color: var(--inner-background-color);
     color: var(--font-color);
+    scrollbar-width: none;
 }
 
 .trending-container, 
