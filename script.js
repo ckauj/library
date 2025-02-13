@@ -6,6 +6,7 @@ const bookTitleInput = document.querySelector('#book-title');
 const bookAuthorInput = document.querySelector('#book-author');
 const bookPageCountInput = document.querySelector('#book-page-count');
 const bookStatusInput = document.querySelector('#book-status');
+const newBookForm = document.querySelector('form');
 let addUpdateState = addBookToLibrary;
 let editID = "";
 
@@ -19,14 +20,15 @@ addBookBtn.addEventListener("click", () => {
 // If 'cancel' clicked it will not execute the 'if'
 // Values reset to original after
 addNewBookDialog.addEventListener("close", (e) => {
-    if(bookAuthorInput.value !== "" && bookTitleInput.value !== "" && addNewBookDialog.returnValue !== 'cancel') {
-        addUpdateState(bookTitleInput.value, bookAuthorInput.value, 
-            bookPageCountInput.value, bookStatusInput.value);
+    if(bookAuthorInput.value !== "" 
+        && bookTitleInput.value !== "" 
+        && addNewBookDialog.returnValue !== 'cancel') {
+        
+            addUpdateState(bookTitleInput.value, bookAuthorInput.value, 
+                            bookPageCountInput.value, bookStatusInput.value);
     }
-    bookTitleInput.value = "";
-    bookAuthorInput.value = "";
-    bookPageCountInput.value = "";
-    bookStatusInput.value = "reading";
+
+    newBookForm.reset();
     addNewBookDialog.returnValue = "";
 });
 
@@ -62,21 +64,26 @@ function addBookToLibrary(title, author, pageCount, status) {
     bookCard.id = `${title}-${author}`;
 
     let coverArt = document.createElement('img');
+    coverArt.src = 'images/google-downasaur.svg';
     coverArt.classList.add('cover-art');
     
     let bookInfo = document.createElement('div');
     bookInfo.classList.add('book-info');
+
     let bookTitle = document.createElement('p');
-    bookTitle.textContent = `${title}`;
+    bookTitle.textContent = title;
     bookTitle.classList.add('book-title');
+
     let bookAuthor = document.createElement('p');
-    bookAuthor.textContent = `${author}`;
+    bookAuthor.textContent = author;
     bookAuthor.classList.add('book-author');
+
     let bookPageCount = document.createElement('p');
-    bookPageCount.textContent = `${pageCount}`;
+    bookPageCount.textContent = pageCount;
     bookPageCount.classList.add('book-page-count');
+
     let bookStatus = document.createElement('p');
-    bookStatus.textContent = `${status}`;
+    bookStatus.textContent = status;
     bookStatus.classList.add('book-status');
     bookStatus.style.display = 'none';
 
@@ -107,40 +114,28 @@ function addBookToLibrary(title, author, pageCount, status) {
     shelfSection.appendChild(bookCard);
 
     editStatusBtn.addEventListener("click", () => {
-        editID = `${author}-${title}`;
+        updateModal(editStatusBtn.parentElement.parentElement.id);
         addUpdateState = editBook;
-        bookTitleInput.value = title;
-        bookAuthorInput.value = author;
-        bookPageCountInput.value = pageCount;
-        bookStatusInput.value = status;
-        addNewBookDialog.showModal();
     });
 
     deleteBookBtn.addEventListener("click", () => {
-        deleteBook(bookCard.id);
+        deleteBook(deleteBookBtn.parentElement.parentElement.id);
     });
 }
 
 function editBook(title, author, pageCount, status) {
     const shelfSection = document.getElementById(`${status}-card-container`);
 
-    bookCard = document.getElementById(editID);
+    let bookCard = document.getElementById(editID);
     bookCard.getElementsByTagName('p')[0].textContent = title;
     bookCard.getElementsByTagName('p')[1].textContent = author;
     bookCard.getElementsByTagName('p')[2].textContent = pageCount;
     bookCard.getElementsByTagName('p')[3].textContent = status;
+    bookCard.id = `${title}-${author}`;
 
     shelfSection.appendChild(bookCard);
-    editID = "";
+    updateMyBookShelfArray(title, author, pageCount, status);
     addUpdateState = addBookToLibrary;
-
-    // Edit book in array to new values
-    let bookIndex = myBookshelf.findIndex(book => book.bookID === `${title}-${author}`);
-    myBookshelf[bookIndex] = {title:title, 
-                            author:author, 
-                            pageCount:pageCount, 
-                            status:status, 
-                            bookID:`${title}-${author}`};
 }
 
 function deleteBook(bookID) {
@@ -148,4 +143,31 @@ function deleteBook(bookID) {
     bookCard.remove();
     let bookIndex = myBookshelf.findIndex(book => book.bookID === bookID);
     myBookshelf.splice(bookIndex, 1);
+}
+
+function updateModal(bookCardID) {
+    let bookCard = document.getElementById(bookCardID);
+    let title = bookCard.getElementsByTagName('p')[0].textContent;
+    let author = bookCard.getElementsByTagName('p')[1].textContent;
+    let pageCount = bookCard.getElementsByTagName('p')[2].textContent;
+    let status = bookCard.getElementsByTagName('p')[3].textContent;
+
+    bookTitleInput.value = title;
+    bookAuthorInput.value = author;
+    bookPageCountInput.value = pageCount;
+    bookStatusInput.value = status;
+    editID = bookCardID;
+
+    addNewBookDialog.showModal();
+}
+
+function updateMyBookShelfArray(title, author, pageCount, status) {
+        // Edit book in array to new values
+        let bookIndex = myBookshelf.findIndex(book => book.bookID === editID);
+        myBookshelf[bookIndex] = {title:title, 
+                                author:author, 
+                                pageCount:pageCount, 
+                                status:status, 
+                                bookID:`${title}-${author}`};
+        editID = "";
 }
